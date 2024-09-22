@@ -3,7 +3,7 @@
 client_id = "5fc316e9ff8e177d533cb9a67ea2f970"
 name = "Shop Test"
 handle = "shop-test-65"
-application_url = "https://developers-enzyme-davidson-wooden.trycloudflare.com"
+application_url = "https://aaa-coral-thumbzilla-arrested.trycloudflare.com"
 embedded = false
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_orders,read_products,write_products"
 
 [auth]
 redirect_urls = [
-  "https://developers-enzyme-davidson-wooden.trycloudflare.com/auth/callback",
-  "https://developers-enzyme-davidson-wooden.trycloudflare.com/auth/shopify/callback",
-  "https://developers-enzyme-davidson-wooden.trycloudflare.com/api/auth/callback"
+  "https://aaa-coral-thumbzilla-arrested.trycloudflare.com/auth/callback",
+  "https://aaa-coral-thumbzilla-arrested.trycloudflare.com/auth/shopify/callback",
+  "https://aaa-coral-thumbzilla-arrested.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
