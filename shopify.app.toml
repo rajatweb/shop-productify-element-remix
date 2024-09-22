@@ -1,16 +1,33 @@
-# This file stores configurations for your Shopify app.
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-scopes = "write_products"
+client_id = "5fc316e9ff8e177d533cb9a67ea2f970"
+name = "Shop Test"
+handle = "shop-test-65"
+application_url = "https://developers-enzyme-davidson-wooden.trycloudflare.com"
+embedded = false
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "hydrogen-web.myshopify.com"
+include_config_on_deploy = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_orders,read_products,write_products"
+
+[auth]
+redirect_urls = [
+  "https://developers-enzyme-davidson-wooden.trycloudflare.com/auth/callback",
+  "https://developers-enzyme-davidson-wooden.trycloudflare.com/auth/shopify/callback",
+  "https://developers-enzyme-davidson-wooden.trycloudflare.com/api/auth/callback"
+]
 
 [webhooks]
 api_version = "2024-07"
 
-  # Mandatory compliance topics for public apps
-  # Delete only if the app is not public
-  # See: https://shopify.dev/docs/apps/build/privacy-law-compliance
   [[webhooks.subscriptions]]
   uri = "/webhooks/customers/data_request"
-  compliance_topics = [ "customers/data_request"]
+  compliance_topics = [ "customers/data_request" ]
 
   [[webhooks.subscriptions]]
   uri = "/webhooks/customers/redact"
@@ -20,15 +37,9 @@ api_version = "2024-07"
   uri = "/webhooks/shop/redact"
   compliance_topics = [ "shop/redact" ]
 
-  # When a shop uninstalls the app, delete the session for that shop
   [[webhooks.subscriptions]]
-  uri = "/webhooks/app/uninstalled"
   topics = [ "app/uninstalled" ]
+  uri = "/webhooks/app/uninstalled"
 
-  # # For reference
-  # # Only receive webhooks for products with a price >= 10.00
-  # # See: https://shopify.dev/docs/apps/build/webhooks/customize/filters
-  # [[webhooks.subscriptions]]
-  # topics = ["products/update"]
-  # uri = "https://example.com/webhooks"
-  # filter = "variants.price:>=10.00"
+[pos]
+embedded = false
