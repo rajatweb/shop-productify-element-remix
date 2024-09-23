@@ -8,6 +8,7 @@ import polarisStyles from "@shopify/polaris/build/esm/styles.css?url";
 import { authenticate } from "../shopify.server";
 import { useState } from "react";
 import { Sidebar } from "app/components/atoms/sidebar/sidebar";
+import { ThemeToggle } from "@/components/atoms/theme-toggle";
 import { cn } from "app/lib/utils";
 
 export const links = () => [{ rel: "stylesheet", href: polarisStyles }];
@@ -33,11 +34,20 @@ export default function App() {
       <main
         className={cn(
           "min-h-[calc(100vh_-_56px)] bg-zinc-50 dark:bg-zinc-900 transition-[margin-left] ease-in-out duration-300",
-          isOpen === false ? "lg:ml-[90px]" : "lg:ml-72"
+          isOpen === false ? "lg:ml-[90px]" : "lg:ml-72",
         )}
       >
         <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
-
+        <header className="sticky top-0 z-10 w-full bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary">
+          <div className="mx-4 sm:mx-8 flex h-14 items-center">
+            <div className="flex items-center space-x-4 lg:space-x-0">
+              <h1 className="font-bold">Dashbord</h1>
+            </div>
+            <div className="flex flex-1 items-center justify-end">
+            <ThemeToggle />
+            </div>
+          </div>
+        </header>
         <Outlet />
       </main>
     </AppProvider>

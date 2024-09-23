@@ -3,7 +3,7 @@
 client_id = "34abd686c2ee8c7388a79b6f44a8dd06"
 name = "Shop Productify Dev"
 handle = "shop-productify-dev"
-application_url = "https://actions-poor-inspections-buses.trycloudflare.com"
+application_url = "https://hub-jackie-prohibited-wa.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_orders,read_products,write_products"
 
 [auth]
 redirect_urls = [
-  "https://actions-poor-inspections-buses.trycloudflare.com/auth/callback",
-  "https://actions-poor-inspections-buses.trycloudflare.com/auth/shopify/callback",
-  "https://actions-poor-inspections-buses.trycloudflare.com/api/auth/callback"
+  "https://hub-jackie-prohibited-wa.trycloudflare.com/auth/callback",
+  "https://hub-jackie-prohibited-wa.trycloudflare.com/auth/shopify/callback",
+  "https://hub-jackie-prohibited-wa.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
