@@ -1,6 +1,8 @@
 import { vitePlugin as remix } from "@remix-run/dev";
 import { defineConfig, type UserConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
+import tailwindcss from 'tailwindcss';
+
 
 // Related: https://github.com/remix-run/remix/issues/2835#issuecomment-1144102176
 // Replace the HOST env var with SHOPIFY_APP_URL so that it doesn't break the remix server. The CLI will eventually
@@ -35,6 +37,11 @@ if (host === "localhost") {
 }
 
 export default defineConfig({
+  css: {
+    postcss: {
+      plugins: [tailwindcss]
+    }
+  },
   server: {
     port: Number(process.env.PORT || 3000),
     hmr: hmrConfig,
@@ -45,11 +52,16 @@ export default defineConfig({
   },
   plugins: [
     remix({
-      ignoredRouteFiles: ["**/.*"],
+      ignoredRouteFiles: ["**/.*"]
     }),
     tsconfigPaths(),
   ],
   build: {
     assetsInlineLimit: 0,
   },
+  resolve: {
+    alias: {
+      '~/': '/app/', // Adjust this path according to your project structure
+    },
+  }
 }) satisfies UserConfig;

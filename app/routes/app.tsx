@@ -6,6 +6,9 @@ import { AppProvider } from "@shopify/shopify-app-remix/react";
 import polarisStyles from "@shopify/polaris/build/esm/styles.css?url";
 
 import { authenticate } from "../shopify.server";
+import { useState } from "react";
+import { Sidebar } from "app/components/atoms/sidebar/sidebar";
+import { cn } from "app/lib/utils";
 
 export const links = () => [{ rel: "stylesheet", href: polarisStyles }];
 
@@ -17,6 +20,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export default function App() {
   const { apiKey } = useLoaderData<typeof loader>();
+  const [isOpen, setIsOpen] = useState<boolean>(true);
 
   return (
     <AppProvider isEmbeddedApp={false} apiKey={apiKey}>
@@ -26,7 +30,16 @@ export default function App() {
         </Link>
         <Link to="/app/additional">Additional page</Link>
       </NavMenu> */}
-      <Outlet />
+      <main
+        className={cn(
+          "min-h-[calc(100vh_-_56px)] bg-zinc-50 dark:bg-zinc-900 transition-[margin-left] ease-in-out duration-300",
+          isOpen === false ? "lg:ml-[90px]" : "lg:ml-72"
+        )}
+      >
+        <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+
+        <Outlet />
+      </main>
     </AppProvider>
   );
 }
