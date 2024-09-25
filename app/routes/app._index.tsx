@@ -1,393 +1,64 @@
-import { useEffect } from "react";
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
+import { Page, Layout, LegacyCard, Banner, Link } from "@shopify/polaris";
 
-import { authenticate } from "~/shopify.server";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
-
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  await authenticate.admin(request);
-
-  return null;
-};
-
-export const action = async ({ request }: ActionFunctionArgs) => {
-  const { admin } = await authenticate.admin(request);
-  const color = ["Red", "Orange", "Yellow", "Green"][
-    Math.floor(Math.random() * 4)
-  ];
-  const response = await admin.graphql(
-    `#graphql
-      mutation populateProduct($input: ProductInput!) {
-        productCreate(input: $input) {
-          product {
-            id
-            title
-            handle
-            status
-            variants(first: 10) {
-              edges {
-                node {
-                  id
-                  price
-                  barcode
-                  createdAt
-                }
-              }
-            }
-          }
-        }
-      }`,
-    {
-      variables: {
-        input: {
-          title: `${color} Snowboard`,
-        },
-      },
-    },
-  );
-  const responseJson = await response.json();
-
-  const product = responseJson.data!.productCreate!.product!;
-  const variantId = product.variants.edges[0]!.node!.id!;
-
-  const variantResponse = await admin.graphql(
-    `#graphql
-    mutation shopifyRemixTemplateUpdateVariant($productId: ID!, $variants: [ProductVariantsBulkInput!]!) {
-      productVariantsBulkUpdate(productId: $productId, variants: $variants) {
-        productVariants {
-          id
-          price
-          barcode
-          createdAt
-        }
-      }
-    }`,
-    {
-      variables: {
-        productId: product.id,
-        variants: [{ id: variantId, price: "100.00" }],
-      },
-    },
-  );
-
-  const variantResponseJson = await variantResponse.json();
-
-  return json({
-    product: responseJson!.data!.productCreate!.product,
-    variant:
-      variantResponseJson!.data!.productVariantsBulkUpdate!.productVariants,
-  });
-};
-
-export default function Index() {
-  const fetcher = useFetcher<typeof action>();
-
-  // const shopify = useAppBridge();
-  const isLoading =
-    ["loading", "submitting"].includes(fetcher.state) &&
-    fetcher.formMethod === "POST";
-  const productId = fetcher.data?.product?.id.replace(
-    "gid://shopify/Product/",
-    "",
-  );
-
-  useEffect(() => {
-    if (productId) {
-      // shopify.toast.show("Product created");
-    }
-  }, [productId]);
-  const generateProduct = () => fetcher.submit({}, { method: "POST" });
-
+function Index() {
   return (
-    <div className="container mx-auto p-5">
-      <div className="grid gap-4 grid-flow-row-dense grid-cols-3 grid-rows-3 pt-5">
-        <div className="col-span-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Card Title</CardTitle>
-              <CardDescription>Card Description</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>Card Content</p>
-            </CardContent>
-            <CardFooter>
-              <p>Card Footer</p>
-            </CardFooter>
-          </Card>
-        </div>
-        <div className="col-span-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Card Title</CardTitle>
-              <CardDescription>Card Description</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>Card Content</p>
-            </CardContent>
-            <CardFooter>
-              <p>Card Footer</p>
-            </CardFooter>
-          </Card>
-        </div>
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle>Card Title</CardTitle>
-              <CardDescription>Card Description</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>Card Content</p>
-            </CardContent>
-            <CardFooter>
-              <p>Card Footer</p>
-            </CardFooter>
-          </Card>
-        </div>
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle>Card Title</CardTitle>
-              <CardDescription>Card Description</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>Card Content</p>
-            </CardContent>
-            <CardFooter>
-              <p>Card Footer</p>
-            </CardFooter>
-          </Card>
-        </div>
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle>Card Title</CardTitle>
-              <CardDescription>Card Description</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>Card Content</p>
-            </CardContent>
-            <CardFooter>
-              <p>Card Footer</p>
-            </CardFooter>
-          </Card>
-        </div>
-      </div>
-      {/* <Page>
-        <BlockStack gap="500">
-          <Layout>
-            <Layout.Section>
-              <Card>
-                <BlockStack gap="500">
-                  <BlockStack gap="200">
-                    <Text as="h2" variant="headingMd">
-                      Congrats on creating a new Shopify app 🎉
-                    </Text>
-                    <Text variant="bodyMd" as="p">
-                      This embedded app template uses{" "}
-                      <Link
-                        url="https://shopify.dev/docs/apps/tools/app-bridge"
-                        target="_blank"
-                        removeUnderline
-                      >
-                        App Bridge
-                      </Link>{" "}
-                      interface examples like an{" "}
-                      <Link url="/app/additional" removeUnderline>
-                        additional page in the app nav
-                      </Link>
-                      , as well as an{" "}
-                      <Link
-                        url="https://shopify.dev/docs/api/admin-graphql"
-                        target="_blank"
-                        removeUnderline
-                      >
-                        Admin GraphQL
-                      </Link>{" "}
-                      mutation demo, to provide a starting point for app
-                      development.
-                    </Text>
-                  </BlockStack>
-                  <BlockStack gap="200">
-                    <Text as="h3" variant="headingMd">
-                      Get started with products
-                    </Text>
-                    <Text as="p" variant="bodyMd">
-                      Generate a product with GraphQL and get the JSON output for
-                      that product. Learn more about the{" "}
-                      <Link
-                        url="https://shopify.dev/docs/api/admin-graphql/latest/mutations/productCreate"
-                        target="_blank"
-                        removeUnderline
-                      >
-                        productCreate
-                      </Link>{" "}
-                      mutation in our API references.
-                    </Text>
-                  </BlockStack>
-                  <InlineStack gap="300">
-                    <Button loading={isLoading} onClick={generateProduct}>
-                      Generate a product
-                    </Button>
-                    {fetcher.data?.product && (
-                      <Button
-                        url={`shopify:admin/products/${productId}`}
-                        target="_blank"
-                        variant="plain"
-                      >
-                        View product
-                      </Button>
-                    )}
-                  </InlineStack>
-                  {fetcher.data?.product && (
-                    <>
-                      <Text as="h3" variant="headingMd">
-                        {" "}
-                        productCreate mutation
-                      </Text>
-                      <Box
-                        padding="400"
-                        background="bg-surface-active"
-                        borderWidth="025"
-                        borderRadius="200"
-                        borderColor="border"
-                        overflowX="scroll"
-                      >
-                        <pre style={{ margin: 0 }}>
-                          <code>
-                            {JSON.stringify(fetcher.data.product, null, 2)}
-                          </code>
-                        </pre>
-                      </Box>
-                      <Text as="h3" variant="headingMd">
-                        {" "}
-                        productVariantsBulkUpdate mutation
-                      </Text>
-                      <Box
-                        padding="400"
-                        background="bg-surface-active"
-                        borderWidth="025"
-                        borderRadius="200"
-                        borderColor="border"
-                        overflowX="scroll"
-                      >
-                        <pre style={{ margin: 0 }}>
-                          <code>
-                            {JSON.stringify(fetcher.data.variant, null, 2)}
-                          </code>
-                        </pre>
-                      </Box>
-                    </>
-                  )}
-                </BlockStack>
-              </Card>
-            </Layout.Section>
-            <Layout.Section variant="oneThird">
-              <BlockStack gap="500">
-                <Card>
-                  <BlockStack gap="200">
-                    <Text as="h2" variant="headingMd">
-                      App template specs
-                    </Text>
-                    <BlockStack gap="200">
-                      <InlineStack align="space-between">
-                        <Text as="span" variant="bodyMd">
-                          Framework
-                        </Text>
-                        <Link
-                          url="https://remix.run"
-                          target="_blank"
-                          removeUnderline
-                        >
-                          Remix
-                        </Link>
-                      </InlineStack>
-                      <InlineStack align="space-between">
-                        <Text as="span" variant="bodyMd">
-                          Database
-                        </Text>
-                        <Link
-                          url="https://www.prisma.io/"
-                          target="_blank"
-                          removeUnderline
-                        >
-                          Prisma
-                        </Link>
-                      </InlineStack>
-                      <InlineStack align="space-between">
-                        <Text as="span" variant="bodyMd">
-                          Interface
-                        </Text>
-                        <span>
-                          <Link
-                            url="https://polaris.shopify.com"
-                            target="_blank"
-                            removeUnderline
-                          >
-                            Polaris
-                          </Link>
-                          {", "}
-                          <Link
-                            url="https://shopify.dev/docs/apps/tools/app-bridge"
-                            target="_blank"
-                            removeUnderline
-                          >
-                            App Bridge
-                          </Link>
-                        </span>
-                      </InlineStack>
-                      <InlineStack align="space-between">
-                        <Text as="span" variant="bodyMd">
-                          API
-                        </Text>
-                        <Link
-                          url="https://shopify.dev/docs/api/admin-graphql"
-                          target="_blank"
-                          removeUnderline
-                        >
-                          GraphQL API
-                        </Link>
-                      </InlineStack>
-                    </BlockStack>
-                  </BlockStack>
-                </Card>
-                <Card>
-                  <BlockStack gap="200">
-                    <Text as="h2" variant="headingMd">
-                      Next steps
-                    </Text>
-                    <List>
-                      <List.Item>
-                        Build an{" "}
-                        <Link
-                          url="https://shopify.dev/docs/apps/getting-started/build-app-example"
-                          target="_blank"
-                          removeUnderline
-                        >
-                          {" "}
-                          example app
-                        </Link>{" "}
-                        to get started
-                      </List.Item>
-                      <List.Item>
-                        Explore Shopify’s API with{" "}
-                        <Link
-                          url="https://shopify.dev/docs/apps/tools/graphiql-admin-api"
-                          target="_blank"
-                          removeUnderline
-                        >
-                          GraphiQL
-                        </Link>
-                      </List.Item>
-                    </List>
-                  </BlockStack>
-                </Card>
-              </BlockStack>
-            </Layout.Section>
-          </Layout>
-        </BlockStack>
-      </Page> */}
+    <div className="container mx-auto">
+      <Page fullWidth>
+        <Layout>
+          <Layout.Section variant="oneThird">
+            <LegacyCard title="Products SEO" sectioned>
+              <p>
+                Use to follow a normal section with a secondary section to
+                create a 2/3 + 1/3 layout on detail pages (such as individual
+                product or order pages). Can also be used on any page that needs
+                to structure a lot of content. This layout stacks the columns on
+                small screens.
+              </p>
+              <div className="pt-4">
+                <Banner>
+                  Learn more about{" "}
+                  <Link url="/app/products">Go to products</Link>
+                </Banner>
+              </div>
+            </LegacyCard>
+          </Layout.Section>
+          <Layout.Section variant="oneThird">
+            <LegacyCard title="Theme Extension" sectioned>
+              <p>
+                Use to follow a normal section with a secondary section to
+                create a 2/3 + 1/3 layout on detail pages (such as individual
+                product or order pages). Can also be used on any page that needs
+                to structure a lot of content. This layout stacks the columns on
+                small screens.
+              </p>
+              <div className="pt-4">
+                <Banner>
+                  Learn more about{" "}
+                  <Link url="/app/theme-extension">Go to Theme Extension</Link>
+                </Banner>
+              </div>
+            </LegacyCard>
+          </Layout.Section>
+          <Layout.Section variant="oneThird">
+            <LegacyCard title="Webhook" sectioned>
+              <p>
+                Use to follow a normal section with a secondary section to
+                create a 2/3 + 1/3 layout on detail pages (such as individual
+                product or order pages). Can also be used on any page that needs
+                to structure a lot of content. This layout stacks the columns on
+                small screens.
+              </p>
+              <div className="pt-4">
+                <Banner>
+                  Learn more about <Link url="/app/orders">Go to Orders</Link>
+                </Banner>
+              </div>
+            </LegacyCard>
+          </Layout.Section>
+        </Layout>
+      </Page>
     </div>
   );
 }
+
+export default Index;

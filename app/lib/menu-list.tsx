@@ -1,6 +1,5 @@
 import type { LucideIcon } from "lucide-react";
 import {
-  Tag,
   Users,
   Settings,
   Bookmark,
@@ -44,24 +43,24 @@ export function getMenuList(pathname: string): Group[] {
     {
       groupLabel: "Contents",
       menus: [
-        {
-          href: "",
-          label: "Posts",
-          active: pathname.includes("/posts"),
-          icon: SquarePen,
-          submenus: [
-            {
-              href: "/posts",
-              label: "All Posts",
-              active: pathname === "/posts",
-            },
-            {
-              href: "/posts/new",
-              label: "New Post",
-              active: pathname === "/posts/new",
-            },
-          ],
-        },
+        // {
+        //   href: "/app/orders",
+        //   label: "Orders",
+        //   active: pathname.includes("/posts"),
+        //   icon: SquarePen,
+        //   submenus: [
+        //     {
+        //       href: "/orders",
+        //       label: "All Orders",
+        //       active: pathname === "/order",
+        //     },
+        //     {
+        //       href: "/posts/new",
+        //       label: "New Post",
+        //       active: pathname === "/posts/new",
+        //     },
+        //   ],
+        // },
         {
           href: "/app/products",
           label: "Products",
@@ -70,12 +69,19 @@ export function getMenuList(pathname: string): Group[] {
           submenus: [],
         },
         {
-          href: "/tags",
-          label: "Tags",
-          active: pathname.includes("/tags"),
-          icon: Tag,
+          href: "/app/orders",
+          label: "Orders",
+          active: pathname.includes("/orders"),
+          icon: SquarePen,
           submenus: [],
         },
+        // {
+        //   href: "/tags",
+        //   label: "Tags",
+        //   active: pathname.includes("/tags"),
+        //   icon: Tag,
+        //   submenus: [],
+        // },
       ],
     },
     {

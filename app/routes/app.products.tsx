@@ -78,8 +78,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 const ProductsPage = () => {
-  const { products: initialProducts, pageInfo: initialPageInfo } =
-    useLoaderData<LoaderData>();
+  const { products: initialProducts, pageInfo: initialPageInfo } = useLoaderData<LoaderData>();
   const fetcher = useFetcher<LoaderData>();
 
   // State to hold current products and pageInfo

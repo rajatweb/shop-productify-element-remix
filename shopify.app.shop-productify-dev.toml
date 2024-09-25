@@ -3,7 +3,7 @@
 client_id = "34abd686c2ee8c7388a79b6f44a8dd06"
 name = "Shop Productify Dev"
 handle = "shop-productify-dev"
-application_url = "https://steps-karaoke-republican-person.trycloudflare.com"
+application_url = "https://supplies-hist-harris-portion.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_orders,read_products,write_products"
 
 [auth]
 redirect_urls = [
-  "https://steps-karaoke-republican-person.trycloudflare.com/auth/callback",
-  "https://steps-karaoke-republican-person.trycloudflare.com/auth/shopify/callback",
-  "https://steps-karaoke-republican-person.trycloudflare.com/api/auth/callback"
+  "https://supplies-hist-harris-portion.trycloudflare.com/auth/callback",
+  "https://supplies-hist-harris-portion.trycloudflare.com/auth/shopify/callback",
+  "https://supplies-hist-harris-portion.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
