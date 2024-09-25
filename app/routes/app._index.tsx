@@ -101,7 +101,7 @@ export default function Index() {
   const generateProduct = () => fetcher.submit({}, { method: "POST" });
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto p-5">
       <div className="grid gap-4 grid-flow-row-dense grid-cols-3 grid-rows-3 pt-5">
         <div className="col-span-2">
           <Card>
