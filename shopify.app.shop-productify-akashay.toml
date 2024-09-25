@@ -1,0 +1,29 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "bafe81cab5374159c87c1b372ea364d8"
+name = "Shop Productify Akashay"
+handle = "shop-productify-akashay"
+application_url = "https://discounts-customize-custody-ware.trycloudflare.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "hydrogen-web.myshopify.com"
+include_config_on_deploy = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_orders,read_products,write_products"
+
+[auth]
+redirect_urls = [
+  "https://discounts-customize-custody-ware.trycloudflare.com/auth/callback",
+  "https://discounts-customize-custody-ware.trycloudflare.com/auth/shopify/callback",
+  "https://discounts-customize-custody-ware.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2024-07"
+
+[pos]
+embedded = false
