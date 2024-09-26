@@ -1,0 +1,24 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "8641c3a5da70abd66eaba5f7b3819357"
+name = "Shop Productify Prod"
+handle = "shop-productify-prod"
+application_url = "https://tex-plains-its-ocean.trycloudflare.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "hydrogen-web.myshopify.com"
+
+[auth]
+redirect_urls = [
+  "https://tex-plains-its-ocean.trycloudflare.com/auth/callback",
+  "https://tex-plains-its-ocean.trycloudflare.com/auth/shopify/callback",
+  "https://tex-plains-its-ocean.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2024-07"
+
+[pos]
+embedded = false
