@@ -3,7 +3,7 @@
 client_id = "bafe81cab5374159c87c1b372ea364d8"
 name = "Shop Productify Akashay"
 handle = "shop-productify-akashay"
-application_url = "https://discounts-customize-custody-ware.trycloudflare.com"
+application_url = "https://pump-pb-numerous-ash.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_orders,read_products,write_products"
 
 [auth]
 redirect_urls = [
-  "https://discounts-customize-custody-ware.trycloudflare.com/auth/callback",
-  "https://discounts-customize-custody-ware.trycloudflare.com/auth/shopify/callback",
-  "https://discounts-customize-custody-ware.trycloudflare.com/api/auth/callback"
+  "https://pump-pb-numerous-ash.trycloudflare.com/auth/callback",
+  "https://pump-pb-numerous-ash.trycloudflare.com/auth/shopify/callback",
+  "https://pump-pb-numerous-ash.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
