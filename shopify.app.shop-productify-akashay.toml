@@ -3,7 +3,7 @@
 client_id = "bafe81cab5374159c87c1b372ea364d8"
 name = "Shop Productify Akashay"
 handle = "shop-productify-akashay"
-application_url = "https://penny-manager-organisations-angola.trycloudflare.com"
+application_url = "https://substances-explanation-loop-deutsche.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_orders,read_products,write_products"
 
 [auth]
 redirect_urls = [
-  "https://penny-manager-organisations-angola.trycloudflare.com/auth/callback",
-  "https://penny-manager-organisations-angola.trycloudflare.com/auth/shopify/callback",
-  "https://penny-manager-organisations-angola.trycloudflare.com/api/auth/callback"
+  "https://substances-explanation-loop-deutsche.trycloudflare.com/auth/callback",
+  "https://substances-explanation-loop-deutsche.trycloudflare.com/auth/shopify/callback",
+  "https://substances-explanation-loop-deutsche.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
